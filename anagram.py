@@ -8,22 +8,39 @@ Your function definition should look like: question1(s, t) and return a boolean 
 def question1(s, t):
 	'''
 	s and t are two strings.
+	s is the main string and t is the string to create anagrms
 	This function determine whether t is an anagram of s or not
 	'''
-	
+	import itertools
+
 	## converting strings to lists
-	s_list = list(s)
-	s_list.sort()
 	t_list = list(t)
-	t_list.sort()
+
+	## finding posible anagrams
+	word_combination_list = list(itertools.permutations(t_list, len(t_list)))
 	
-	print (s_list)
+	## create word combinations
+	word_combination = []
+	for combination in word_combination_list:
+		word = ''
+		for letter in combination:
+			## combine letters to a word
+			word = word + letter
+		## Chech wheather the word is in given main string
+		if word in s:
+			word_combination.append(word)
 	
-	if t_list in t_list:
-		return True
+	if len(word_combination) > 0:
+		print('The anagrams in the main string string given: ', word_combination)
+		print()
+		return True		
 	else:
+		print('No anagrams in the main string string given:')
 		return False
 	
 
-## Questinn 1 test
+print('Questinn 1 tests results')
 print(question1('udasity', 'ad'))
+print(question1('determine whether some anagram of t is a substring of', 'some'))
+print(question1('determine whether some anagram of t is a substring of', 'like'))
+
