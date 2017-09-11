@@ -12,6 +12,10 @@ def question1(s, t):
 	This function determine whether t is an anagram of s or not
 	'''
 	import itertools
+	
+	## Convert the strings to lower case
+	s = s.lower()
+	t = t.lower()
 
 	## converting strings to lists
 	t_list = list(t)
