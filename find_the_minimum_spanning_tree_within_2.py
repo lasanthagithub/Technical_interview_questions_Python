@@ -298,6 +298,7 @@ def question3(g):
 	import pprint
 	pp = pprint.PrettyPrinter(indent=2)	
 	pp.pprint(edge_sequence(paths)[3])
+
 	print('minimum spanning')
 	## Return the minimum spanning path 
 	return edge_sequence(paths)[3]
