@@ -71,6 +71,15 @@ class Graph(object):
         return [(e.value, e.node_from.value, e.node_to.value)
                 for e in self.edges]
 
+    def get_edge_dict(self):
+        """Return a list of triples that looks like this:
+        (Edge Value, From Node, To Node)"""
+        e_dict = {}
+        for e in self.edges:
+            e_dict[self.node_names[e.node_from.value]+'_'+ \
+                   self.node_names[e.node_to.value]] = e.value
+        return e_dict
+
     def get_edge_list_names(self):
         """Return a list of triples that looks like this:
         (Edge Value, From Node Name, To Node Name)"""
@@ -231,8 +240,7 @@ def question3(g):
 			g_key_list.index(edge[0]))
 			
 			
-	## Get potential paths
-			
+	## Get potential paths			
 	def get_paths(paths_, nod_names, key_list):
 		for i in range(len(key_list)):
 			path = nod_names(i)
@@ -241,49 +249,60 @@ def question3(g):
 		return paths_
 	
 	paths = []
-	paths = get_paths(paths, graph.bfs_names, g_key_list)
+	#paths = get_paths(paths, graph.bfs_names, g_key_list)
 	paths + get_paths(paths, graph.dfs_names, g_key_list)
+	
+	## Ge the total score for the path
+	def get_edges_score(path_):
+		path_len = len(path_)
+		edge_dist = graph.get_edge_dict()
+		path_dict = {}
+		end = 2
+		start = 0
+		total_length = 0
+		while end -1  < path_len:			
+			#edge = path_[start: end]
+			edge1 = path_[start] +'_'+path_[start+1]
+			
+			if edge1 in edge_dist.keys():
+				dist = edge_dist[edge1]
+			else:
+				dist = 10e20
+				
+			total_length += dist
+			path_dict[path_[start]] = (path_[start+1], dist)				
+			start = end -1
+			end = end + 1
+		return [total_length, path_dict]
+		
+	## Get the minimum path dictionary
+	def edge_sequence(paths_list):
+		paths_dict = {}
+		min_dist = 0
+		min_path = None
+		min_dict = None
+		for idx, path in enumerate(paths_list):
+			edge_info = get_edges_score(path)
+			score = edge_info[0]
+			paths_dict[idx] = [path, score]
+			if idx == 0 or min_dist > score:
+				min_dist = score
+				min_path = path
+				min_dict = edge_info[1]
+			
+		return [paths_dict, min_dist, min_path, min_dict]
 
-
+	edge_sequence(paths)
 	
-	
-	
+	## Print for displaying
 	import pprint
-	pp = pprint.PrettyPrinter(indent=2)
-	
-	pp.pprint(paths)
-	print ("Edge List")
-	#pp.pprint(graph.get_edge_list_names())
+	pp = pprint.PrettyPrinter(indent=2)	
+	pp.pprint(edge_sequence(paths)[3])
+	print('minimum spanning')
+	## Return the minimum spanning path 
+	return edge_sequence(paths)[3]
 
-
-	print()
-	
-	'''
-
-	
-	print ("\nAdjacency List")
-	pp.pprint(graph.get_adjacency_list_names())
-	
-	print ("\nAdjacency Matrix")
-	pp.pprint(graph.get_adjacency_matrix())
-	
-	print ("\nDepth First Search")
-	pp.pprint(graph.dfs_names(2))
-	
-	# Should print:
-	# Depth First Search
-	# ['London', 'Shanghai', 'Mountain View', 'San Francisco', 'Berlin', 'Sao Paolo']
-	
-	print ("\nBreadth First Search")
-	pp.pprint(graph.bfs_names(2))
-	print ("\nBreadth First Search")
-	pp.pprint(graph.bfs_names(0))
-	# test error reporting
-	'''
-def convert_to_graph():
-	pass
-
-
+## Test cases
 g = {'A' : [('B', 7), ('C', 9), ('F', 14)], 
      'B' : [('A', 7), ('C', 10), ('D', 15)], 
      'C' : [('A', 9), ('B', 10), ('D', 11), ('F', 2)],
@@ -295,7 +314,16 @@ g = {'A' : [('B', 7), ('C', 9), ('F', 14)],
 g1 = {'A': [('B', 2)],
  'B': [('A', 2), ('C', 5)], 
  'C': [('B', 5)]}
+	
+g2 = {'A' : [('B', 7), ('C', 9), ('F', 14)], 
+     'B' : [('A', 7), ('C', 10), ('D', 15)], 
+     'C' : [('A', 9), ('B', 10), ('D', 11), ('F', 2), ('G', 4)],
+     'D' : [('B', 15), ('C', 11), ('E', 6)],
+     'E' : [('D', 6), ('F', 9), ('G', 3)],
+     'F' : [('A', 14), ('C', 2), ('E', 9), ('G', 5)],
+     'G' : [('F', 5), ('E', 3), ('C', 4)]
+     }
 
 question3(g)
-
-
+question3(g1)
+question3(g2)
