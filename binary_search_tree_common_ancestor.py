@@ -1,87 +1,165 @@
 '''
-Question 3
-Given an undirected graph G, find the minimum spanning tree within G. 
-A minimum spanning tree connects all vertices in a graph with the smallest 
-possible total weight of edges. Your function should take in and return 
-an adjacency list structured like this:
-{'A': [('B', 2)],
- 'B': [('A', 2), ('C', 5)], 
- 'C': [('B', 5)]}
-Vertices are represented as unique strings. 
-The function definition should be question3(G)
+Question 4
+Find the least common ancestor between two nodes on a binary search tree. 
+The least common ancestor is the farthest node from the root that is 
+an ancestor of both nodes. For example, the root is a common ancestor of 
+all nodes on the tree, but if both nodes are descendents of the root's 
+left child, then that left child might be the lowest common ancestor. 
+You can assume that both nodes are in the tree, and the tree itself adheres 
+to all BST properties. The function definition should look like 
+question4(T, r, n1, n2), where T is the tree represented as a matrix, 
+where the index of the list is equal to the integer stored in that node 
+and a 1 represents a child node, r is a non-negative integer representing 
+the root, and n1 and n2 are non-negative integers representing the two nodes 
+in no particular order.
 
-The keys of the dictionary are the nodes of our graph. 
-The corresponding values are lists with the nodes, 
-which are connecting by an edge.
-An edge size is given as a 2-tuple with nodes , i.e. ("A","3")
+'''
+'''
+
+class Node(object):
+    def __init__(self, value):
+        self.value = value
+        self.left = None
+        self.right = None
+
+class BinaryTree(object):
+    def __init__(self, root):
+        self.root = Node(root)
+
+    def search(self, find_val):
+        """Return True if the value
+        is in the tree, return
+        False otherwise."""
+        return self.preorder_search(tree.root, find_val)
+
+    def print_tree(self):
+        """Print out all tree nodes
+        as they are visited in
+        a pre-order traversal."""
+        return self.preorder_print(tree.root, "")[:-1]
+
+    def preorder_search(self, start, find_val):
+        """Helper method - use this to create a 
+        recursive search solution."""
+        if start:
+            if start.value == find_val:
+                return True
+            else:
+                return self.preorder_search(start.left, find_val) or self.preorder_search(start.right, find_val)
+        return False
+
+    def preorder_print(self, start, traversal):
+        """Helper method - use this to create a 
+        recursive print solution."""
+        if start:
+            traversal += (str(start.value) + "-")
+            traversal = self.preorder_print(start.left, traversal)
+            traversal = self.preorder_print(start.right, traversal)
+        return traversal
+
+
+# Set up tree
+tree = BinaryTree(1)
+tree.root.left = Node(2)
+tree.root.right = Node(3)
+tree.root.left.left = Node(4)
+tree.root.left.right = Node(5)
+
+# Test search
+# Should be True
+print (tree.search(4))
+# Should be False
+print (tree.search(6))
+
+# Test print_tree
+# Should be 1-2-4-5-3
+print (tree.print_tree())
 
 '''
 
-def question3(g):
-	## Asumptions: all the nodes 
-	g_key_list = g.keys()
-	#print(g_key_list)
-	
-	start_node = 'A'
+class Node(object):
+    def __init__(self, value):
+        self.value = value
+        self.left = None
+        self.right = None
 
+class BST(object):
+    def __init__(self, root):
+        self.root = Node(root)
 
+    def insert(self, new_val):
+        self.insert_helper(self.root, new_val)
 
-
-import heapq
-
-def dijkstra(aGraph, start, target):
-    print ('''Dijkstra's shortest path''')
-    # Set the distance for the start node to zero 
-    start.set_distance(0)
-
-    # Put tuple pair into the priority queue
-    unvisited_queue = [(v.get_distance(),v) for v in aGraph]
-    heapq.heapify(unvisited_queue)
-
-    while len(unvisited_queue):
-        # Pops a vertex with the smallest distance 
-        uv = heapq.heappop(unvisited_queue)
-        current = uv[1]
-        current.set_visited()
-
-        #for next in v.adjacent:
-        for next in current.adjacent:
-            # if visited, skip
-            if next.visited:
-                continue
-            new_dist = current.get_distance() + current.get_weight(next)
-            
-            if new_dist < next.get_distance():
-                next.set_distance(new_dist)
-                next.set_previous(current)
-                print ('updated : current = %s next = %s new_dist = %s' \
-                        %(current.get_id(), next.get_id(), next.get_distance()))
+    def insert_helper(self, current, new_val):
+        if current.value < new_val:
+            if current.right:
+                self.insert_helper(current.right, new_val)
             else:
-                print ('not updated : current = %s next = %s new_dist = %s' \
-                        %(current.get_id(), next.get_id(), next.get_distance()))
+                current.right = Node(new_val)
+        else:
+            if current.left:
+                self.insert_helper(current.left, new_val)
+            else:
+                current.left = Node(new_val)
 
-        # Rebuild heap
-        # 1. Pop every item
-        while len(unvisited_queue):
-            heapq.heappop(unvisited_queue)
-        # 2. Put all vertices not visited into the queue
-        unvisited_queue = [(v.get_distance(),v) for v in aGraph if not v.visited]
-        heapq.heapify(unvisited_queue)
+    def search(self, find_val):
+        return self.search_helper(self.root, find_val)
+
+    def search_helper(self, current, find_val):
+        if current:
+            if current.value == find_val:
+                return True
+            elif current.value < find_val:
+                return self.search_helper(current.right, find_val)
+            else:
+                return self.search_helper(current.left, find_val)
+        return False
+
+
+# Set up tree
+tree = BST(4)
+
+# Insert elements
+tree.insert(2)
+tree.insert(1)
+tree.insert(3)
+tree.insert(5)
+
+# Check search
+# Should be True
+print tree.search(4)
+# Should be False
+print tree.search(6)
 
 
 
 
 
 
-g = {'A' : [('B', 7), ('C', 9), ('F', 14)], 
-     'B' : [('A', 7), ('C', 10), ('D', 15)], 
-     'C' : [('A', 9), ('B', 10), ('D', 11), ('F', 2)],
-     'D' : [('B', 15), ('C', 11), ('E', 6)],
-     'E' : [('D', 6), ('F', 9)],
-     'F' : [('A', 14, ('C', 2), ('E', 9))],
-					
-					}
-					
-question3(g)
 
-dijkstra(g, 'A', 'F')
+
+
+
+
+def question4(T, r, n1, n2):
+	pass
+
+
+
+
+
+
+
+
+question4([[0, 1, 0, 0, 0],
+           [0, 0, 0, 0, 0],
+           [0, 0, 0, 0, 0],
+           [1, 0, 0, 0, 1],
+           [0, 0, 0, 0, 0]],
+          3,
+          1,
+          4)
+
+
+
+
