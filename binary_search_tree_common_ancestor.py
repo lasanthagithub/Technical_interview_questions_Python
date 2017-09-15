@@ -145,29 +145,82 @@ def question4(T, r, n1, n2):
 	## Enter root into tree
 	tree = BST(r)
 	## Inser data in to BST
-	for i, lst in enumerate(T):
-		for j, num in enumerate(lst):
-			if num == 1:
-				tree.insert(i)
-				print(i, j)
-			
+	'''for num, lst in enumerate(T):
+		
+		for j, child in enumerate(lst):
+			if child == 1:
+				tree.insert(num)
+	
+	def get_children(T, node_lst, children = []):
+		order = []
+		
+		for child in node_lst:
+			if child == 1:
+				order.append(child)
+				children.append(child)
+				get_children(T, T[child], children)
+		return order
+	print(get_children(T, T[r]))
+	
+	'''
+	end =True
+	node = r
+	children = []
+	def get_children(T, node, temp_lst = []):
+		for nod, child in enumerate(T[node]):
+			if child == 1:
+				temp_lst.append(nod)
+		return temp_lst
+		
+	children = get_children(T, r, children)
+	#print(children)
+	
+	while children:
+		temp_child = []
+		for sub_nod in children:
+			tree.insert(sub_nod)
+
+			'''for nod, child in enumerate(T[sub_nod]):
+				if child == 1:
+					temp_child.append(nod)
+			'''
+			temp_child = get_children(T, sub_nod, temp_child)
+		children = temp_child
+		#print(children)
+	print (tree.search(0))
+	print (tree.search(1))
+	print (tree.search(2))
+	print (tree.search(3))
 	print (tree.search(4))
-
-
-
-
-
+	print (tree.search(5))
+	print (tree.search(6))
+	print()
 
 
 question4([[0, 1, 0, 0, 0],
            [0, 0, 0, 0, 0],
            [0, 0, 0, 0, 0],
            [1, 0, 0, 0, 1],
-           [0, 0, 0, 0, 0]],
-          3,
-          1,
-          4)
+           [0, 0, 0, 0, 0]], 3, 1, 4)
 
 
+question4([[0, 0, 0, 0, 0],
+           [1, 0, 1, 0, 0],
+           [0, 0, 0, 0, 0],
+           [0, 1, 0, 0, 1],
+           [0, 0, 0, 0, 0]],3, 1, 2)
 
 
+question4([[0, 0, 0, 0, 0],
+           [1, 0, 0, 0, 0],
+           [0, 1, 0, 1, 0],
+           [0, 0, 0, 0, 1],
+           [0, 0, 0, 0, 0]],2, 1, 2)
+
+question4([[0, 0, 0, 0, 0, 0, 0],
+           [1, 0, 0, 0, 0, 0, 0],
+           [0, 1, 0, 0, 0, 0, 0],
+           [0, 0, 1, 0, 0, 0, 0],
+           [0, 0, 0, 1, 0, 1, 0],
+           [0, 0, 0, 0, 0, 0, 0],
+           [0, 0, 0, 0, 0, 0, 0]],4, 1, 2)
