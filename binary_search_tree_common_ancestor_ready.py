@@ -14,106 +14,6 @@ the root, and n1 and n2 are non-negative integers representing the two nodes
 in no particular order.
 
 '''
-'''
-
-class Node(object):
-    def __init__(self, value):
-        self.value = value
-        self.left = None
-        self.right = None
-
-class BinaryTree(object):
-    def __init__(self, root):
-        self.root = Node(root)
-
-    def search(self, find_val):
-        """Return True if the value
-        is in the tree, return
-        False otherwise."""
-        return self.preorder_search(tree.root, find_val)
-
-    def print_tree(self):
-        """Print out all tree nodes
-        as they are visited in
-        a pre-order traversal."""
-        return self.preorder_print(tree.root, "")[:-1]
-
-    def preorder_search(self, start, find_val):
-        """Helper method - use this to create a 
-        recursive search solution."""
-        if start:
-            if start.value == find_val:
-                return True
-            else:
-                return self.preorder_search(start.left, find_val) or self.preorder_search(start.right, find_val)
-        return False
-
-    def preorder_print(self, start, traversal):
-        """Helper method - use this to create a 
-        recursive print solution."""
-        if start:
-            traversal += (str(start.value) + "-")
-            traversal = self.preorder_print(start.left, traversal)
-            traversal = self.preorder_print(start.right, traversal)
-        return traversal
-
-
-# Set up tree
-tree = BinaryTree(1)
-tree.root.left = Node(2)
-tree.root.right = Node(3)
-tree.root.left.left = Node(4)
-tree.root.left.right = Node(5)
-
-# Test search
-# Should be True
-print (tree.search(4))
-# Should be False
-print (tree.search(6))
-
-# Test print_tree
-# Should be 1-2-4-5-3
-print (tree.print_tree())
-
-
-		
-
-	def search1(self, find_val):
-		"""Return True if the value
-		is in the tree, return
-		False otherwise."""
-		return self.preorder_search(self.root, find_val)
-
-	def print_tree(self):
-		"""Print out all tree nodes
-		as they are visited in
-		a pre-order traversal."""
-		return self.preorder_print(self.root, "")[:-1]
-
-	def preorder_search(self, start, find_val):
-		"""Helper method - use this to create a 
-		recursive search solution."""
-		if start:
-			if start.value == find_val:
-				return True
-			else:
-				return self.preorder_search(start.left, find_val) or self.preorder_search(start.right, find_val)
-		return False
-
-	def preorder_print(self, start, traversal):
-		"""Helper method - use this to create a 
-		recursive print solution."""
-		if start:
-			traversal += (str(start.value) + "-")
-			traversal = self.preorder_print(start.left, traversal)
-			traversal = self.preorder_print(start.right, traversal)
-		return traversal
-
-
-
-
-
-'''
 
 class Node(object):
 	def __init__(self, value):
@@ -140,22 +40,10 @@ class BST(object):
 			else:
 				current.left = Node(new_val)
 
-	def search(self, find_val):
-		return self.search_helper(self.root, find_val)
-
-
-	def search_helper(self, current, find_val):
-		if current:
-			if current.value == find_val:
-				return True
-			elif current.value < find_val:
-				return self.search_helper(current.right, find_val)
-			else:
-				return self.search_helper(current.left, find_val)
-		return False
 	## Search path to given node
 	def find_path_to(self, find_val):
-		return self.find_path_to_helper(self.root, find_val, path = [self.root.value])
+		return self.find_path_to_helper(self.root, find_val, \
+			path = [self.root.value])
 
 	def find_path_to_helper(self, current, find_val, path):
 		found = False
@@ -176,8 +64,7 @@ class BST(object):
 
 def question4(T, r, n1, n2):
 	## Initialize and enter root into tree
-	tree = BST(r)
-	
+	tree = BST(r)	
 	
 	## Get the list of child nodes from matrix
 	def get_children(T, node, temp_lst = []):
@@ -198,25 +85,30 @@ def question4(T, r, n1, n2):
 	## Get the path fom root to specific nodes
 	path_to_n1 = tree.find_path_to(n1)
 	path_to_n2 = tree.find_path_to(n2)
-	
-	## Get the least common ancestor
-	least_common_ancestor = None
-	for nod_n1 in path_to_n1:
-		for nod_n2 in path_to_n2:
-			if nod_n1 == nod_n2:
-				least_common_ancestor = nod_n1
-				continue
-	
-	#common_path = list(set(path_to_n1) & set(path_to_n2))
-	#common_path = list(set(path_to_n1) - set(path_to_n2))
-	print(least_common_ancestor)	
 	print(tree.find_path_to(n1))
 	print(tree.find_path_to(n2))
+	## Get the least common ancestor
+	least_common_ancestor = None
+	if n1 == r or n2 == r:
+		print(n1, 'or', n2, 'equel to root', r)
+		print('No common ancestor')
+		print()
+		return least_common_ancestor
+	
+	for nod_n1 in path_to_n1:
+		for idx, nod_n2 in enumerate(path_to_n2):
+			if nod_n1 == nod_n2:
+				least_common_ancestor = nod_n1
+				if least_common_ancestor == n1 or least_common_ancestor == n2:
+					least_common_ancestor = path_to_n2[idx -1]
+				continue	
+	#common_path = list(set(path_to_n1) & set(path_to_n2))
+	#common_path = list(set(path_to_n1) - set(path_to_n2))
+	print('least_common_ancestor for',n1, 'and', n2, 'is' , least_common_ancestor)
 	print()
 	return least_common_ancestor
 
 ## Test cases
-
 question4([[0, 1, 0, 0, 0],
            [0, 0, 0, 0, 0],
            [0, 0, 0, 0, 0],
@@ -237,6 +129,11 @@ question4([[0, 0, 0, 0, 0],
            [0, 0, 0, 0, 1],
            [0, 0, 0, 0, 0]],2, 1, 2)
 
+question4([[0, 0, 0, 0, 0],
+           [1, 0, 0, 0, 0],
+           [1, 1, 0, 0, 0],
+           [0, 0, 1, 0, 1],
+           [0, 0, 0, 0, 0]],3, 1, 2)
 
 question4([[0, 0, 0, 0, 0, 0, 0],
            [1, 0, 0, 0, 0, 0, 0],
@@ -245,3 +142,11 @@ question4([[0, 0, 0, 0, 0, 0, 0],
            [0, 0, 0, 1, 0, 1, 0],
            [0, 0, 0, 0, 0, 0, 1],
            [0, 0, 0, 0, 0, 0, 0]],4, 1, 2)
+
+question4([[0, 0, 0, 0, 0, 0, 0],
+           [1, 0, 0, 0, 0, 0, 0],
+           [0, 0, 0, 0, 0, 0, 0],
+           [0, 1, 1, 0, 0, 0, 0],
+           [0, 0, 0, 1, 0, 1, 0],
+           [0, 0, 0, 0, 0, 0, 1],
+           [0, 0, 0, 0, 0, 0, 0]],4, 1, 6)
