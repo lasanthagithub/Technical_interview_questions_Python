@@ -41,19 +41,6 @@ class LinkedList(object):
 			counter += 1
 		return None
 		
-	## Get the length of linked list
-	def get_length(self, node):
-		"""Get the total length of the linked list."""
-		counter = 1
-		current = node
-		if current:
-			while current:
-				current = current.next
-				counter += 1
-			return counter
-		else:
-			return None
-
 
 def question5(ll, m):
 	
