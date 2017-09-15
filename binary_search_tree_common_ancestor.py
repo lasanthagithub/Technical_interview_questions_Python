@@ -75,6 +75,44 @@ print (tree.search(6))
 # Should be 1-2-4-5-3
 print (tree.print_tree())
 
+
+		
+
+	def search1(self, find_val):
+		"""Return True if the value
+		is in the tree, return
+		False otherwise."""
+		return self.preorder_search(self.root, find_val)
+
+	def print_tree(self):
+		"""Print out all tree nodes
+		as they are visited in
+		a pre-order traversal."""
+		return self.preorder_print(self.root, "")[:-1]
+
+	def preorder_search(self, start, find_val):
+		"""Helper method - use this to create a 
+		recursive search solution."""
+		if start:
+			if start.value == find_val:
+				return True
+			else:
+				return self.preorder_search(start.left, find_val) or self.preorder_search(start.right, find_val)
+		return False
+
+	def preorder_print(self, start, traversal):
+		"""Helper method - use this to create a 
+		recursive print solution."""
+		if start:
+			traversal += (str(start.value) + "-")
+			traversal = self.preorder_print(start.left, traversal)
+			traversal = self.preorder_print(start.right, traversal)
+		return traversal
+
+
+
+
+
 '''
 
 class Node(object):
@@ -115,64 +153,27 @@ class BST(object):
 			else:
 				return self.search_helper(current.left, find_val)
 		return False
-		
+	## Search path to given node
 	def find_path_to(self, find_val):
-		return self.find_path_to_helper(self.root, find_val)
+		return self.find_path_to_helper(self.root, find_val, path = [self.root.value])
 
-	def find_path_to_helper(self, current, find_val, path = [], found = False):
-		
-		
-		if current:
+	def find_path_to_helper(self, current, find_val, path):
+		found = False
+		if current:			
 			if current.value == find_val:
-				#path.append(current.value)
 				found = True
 				
 			elif current.value < find_val:
-				path.append(current.right)
+				path.append(current.right.value)	
 				self.find_path_to_helper(current.right, find_val, path)
-			else:
-				path.append(current.left)
-				self.find_path_to_helper(current.left, find_val, path)
 				
-		if found:
-			return path
-		else:
-			return []
-		
-		
-		
-
-	def search1(self, find_val):
-		"""Return True if the value
-		is in the tree, return
-		False otherwise."""
-		return self.preorder_search(self.root, find_val)
-
-	def print_tree(self):
-		"""Print out all tree nodes
-		as they are visited in
-		a pre-order traversal."""
-		return self.preorder_print(self.root, "")[:-1]
-
-	def preorder_search(self, start, find_val):
-		"""Helper method - use this to create a 
-		recursive search solution."""
-		if start:
-			if start.value == find_val:
-				return True
 			else:
-				return self.preorder_search(start.left, find_val) or self.preorder_search(start.right, find_val)
-		return False
-
-	def preorder_print(self, start, traversal):
-		"""Helper method - use this to create a 
-		recursive print solution."""
-		if start:
-			traversal += (str(start.value) + "-")
-			traversal = self.preorder_print(start.left, traversal)
-			traversal = self.preorder_print(start.right, traversal)
-		return traversal
-
+				path.append(current.left.value)
+				self.find_path_to_helper(current.left, find_val, path)
+			print (found)	
+		return path
+		
+		
 
 
 
@@ -197,8 +198,10 @@ def question4(T, r, n1, n2):
 			temp_child = get_children(T, sub_nod, temp_child)
 		children = temp_child
 	
-	print(tree.find_path_to(3))
-	
+	print(tree.find_path_to(6))
+	print(tree.find_path_to(2))
+	print(tree.find_path_to(4))
+	'''
 	print (tree.search(0))
 	print (tree.search(1))
 	print (tree.search(2))
@@ -207,7 +210,7 @@ def question4(T, r, n1, n2):
 	print (tree.search(5))
 	print (tree.search(6))
 	print()
-	
+	'''
 	#print(tree.print_tree())
 
 
@@ -239,5 +242,5 @@ question4([[0, 0, 0, 0, 0, 0, 0],
            [0, 1, 0, 0, 0, 0, 0],
            [0, 0, 1, 0, 0, 0, 0],
            [0, 0, 0, 1, 0, 1, 0],
-           [0, 0, 0, 0, 0, 0, 0],
+           [0, 0, 0, 0, 0, 0, 1],
            [0, 0, 0, 0, 0, 0, 0]],4, 1, 2)
