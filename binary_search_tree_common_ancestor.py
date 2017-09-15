@@ -115,7 +115,7 @@ class BST(object):
                 return self.search_helper(current.left, find_val)
         return False
 
-
+'''
 # Set up tree
 tree = BST(4)
 
@@ -127,11 +127,11 @@ tree.insert(5)
 
 # Check search
 # Should be True
-print tree.search(4)
+print (tree.search(4))
 # Should be False
-print tree.search(6)
+print (tree.search(6))
 
-
+'''
 
 
 
@@ -142,8 +142,16 @@ print tree.search(6)
 
 
 def question4(T, r, n1, n2):
-	pass
-
+	## Enter root into tree
+	tree = BST(r)
+	## Inser data in to BST
+	for i, lst in enumerate(T):
+		for j, num in enumerate(lst):
+			if num == 1:
+				tree.insert(i)
+				print(i, j)
+			
+	print (tree.search(4))
 
 
 
