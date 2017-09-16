@@ -50,5 +50,7 @@ print('Questinn 1 tests results')
 print(question1('udasity', 'ad'))
 print(question1('determine some anagram of t is a substring of', 'some'))
 print(question1('determine some anagram of t is a substring of', 'like'))
+print(question1('', 'like'))
+print(question1('', ''))
 
 ###########Question2###########################################################

@@ -1,8 +1,10 @@
-## Question 1
+###########Question1###########################################################
+
 """
-Given two strings s and t, determine whether some anagram of t is a substring of s. 
-For example: if s = "udacity" and t = "ad", then the function returns True. 
-Your function definition should look like: question1(s, t) and return a boolean True or False
+Given two strings s and t, determine whether some anagram of t is a substring 
+of s. For example: if s = "udacity" and t = "ad", then the function returns 
+True. Your function definition should look like: 
+question1(s, t) and return a boolean True or False
 """
 
 def question1(s, t):
@@ -35,16 +37,20 @@ def question1(s, t):
 			word_combination.append(word)
 	
 	if len(word_combination) > 0:
-		print('The anagrams in the main string string given: ', word_combination)
+		print('The anagrams in the main string string given: ', \
+										word_combination)
 		print()
 		return True		
 	else:
-		print('No anagrams in the main string string given:')
+		print('No anagrams found in the main string string given:')
 		return False
 	
-
+## Question 1 test cases
 print('Questinn 1 tests results')
 print(question1('udasity', 'ad'))
-print(question1('determine whether some anagram of t is a substring of', 'some'))
-print(question1('determine whether some anagram of t is a substring of', 'like'))
+print(question1('determine some anagram of t is a substring of', 'some'))
+print(question1('determine some anagram of t is a substring of', 'like'))
+print(question1('', 'like'))
+print(question1('', ''))
+
 
