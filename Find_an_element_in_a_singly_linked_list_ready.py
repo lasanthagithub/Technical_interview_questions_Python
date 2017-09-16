@@ -1,3 +1,4 @@
+###########Question5###########################################################
 '''
 Question 5
 Find the element in a singly linked list that's m elements from the end. 
@@ -7,8 +8,7 @@ where ll is the first node of a linked list and m is the "mth number
 from the end". 
 '''
 
-
-class Node(object):
+class LLNode(object):
 	def __init__(self, data):
 		self.data = data
 		self.next = None
@@ -87,23 +87,23 @@ def question5(ll, m):
 # Create a linked list
 llist = LinkedList()
 for i in range(1, 100):
-	llist.append(Node(i))
+	llist.append(LLNode(i))
 
 question5(llist.get_position(1), 20)
 
 
 llist = LinkedList()
 for i in range(-4, 5):
-	llist.append(Node(i))
+	llist.append(LLNode(i))
 question5(llist.get_position(1), 3)
 
 
 llist = LinkedList()
 for i in [5,3,7,8,0]:
-	llist.append(Node(i))
+	llist.append(LLNode(i))
 question5(llist.get_position(1), 3)
 
 llist = LinkedList()
 for i in range(-4, 5):
-	llist.append(Node(i))
+	llist.append(LLNode(i))
 question5(llist.get_position(1), 20)

@@ -64,52 +64,57 @@ class BST(object):
 
 
 def question4(T, r, n1, n2):
-	## Initialize and enter root into tree
-	tree = BST(r)	
 	
-	## Get the list of child nodes from matrix
-	def get_children(T, node, temp_lst = []):
-		for nod, child in enumerate(T[node]):
-			if child == 1:
-				temp_lst.append(nod)
-		return temp_lst
-	
-	children = get_children(T, r)	
-	## Inser data in to BST
-	while children:
-		temp_child = []
-		for sub_nod in children:
-			tree.insert(sub_nod)
-			temp_child = get_children(T, sub_nod, temp_child)
-		children = temp_child
-	
-	## Get the path fom root to specific nodes
-	path_to_n1 = tree.find_path_to(n1)
-	path_to_n2 = tree.find_path_to(n2)
-	print(tree.find_path_to(n1))
-	print(tree.find_path_to(n2))
-	## Get the least common ancestor
-	least_common_ancestor = None
-	if n1 == r or n2 == r:
+	least_common_ancestor = None	
+	if (n1 < r and n2 > r) or (n2 < r and n1 > r):
+		print('least_common_ancestor for',n1, 'and', n2, 'is the root' , r)
+		print()
+		return r
+		
+	elif n1 == r or n2 == r:
 		print(n1, 'or', n2, 'equel to root', r)
 		print('No common ancestor')
 		print()
 		return least_common_ancestor
-	
-	for nod_n1 in path_to_n1:
-		for idx, nod_n2 in enumerate(path_to_n2):
-			if nod_n1 == nod_n2:
-				least_common_ancestor = nod_n1
-				if least_common_ancestor == n1 or \
-								least_common_ancestor == n2:
-					least_common_ancestor = path_to_n2[idx -1]
-				continue	
-	#common_path = list(set(path_to_n1) & set(path_to_n2))
-	#common_path = list(set(path_to_n1) - set(path_to_n2))
-	print('least_common_ancestor for',n1, 'and', n2, 'is' , \
-								least_common_ancestor)
-	print()
-	return least_common_ancestor
+	else:	
+		## Initialize and enter root into tree
+		tree = BST(r)	
+		
+		## Get the list of child nodes from matrix
+		def get_children(T, node, temp_lst = []):
+			for nod, child in enumerate(T[node]):
+				if child == 1:
+					temp_lst.append(nod)
+			return temp_lst
+		
+		children = get_children(T, r)	
+		## Inser data in to BST
+		while children:
+			temp_child = []
+			for sub_nod in children:
+				tree.insert(sub_nod)
+				temp_child = get_children(T, sub_nod, temp_child)
+			children = temp_child
+		
+		## Get the path fom root to specific nodes
+		path_to_n1 = tree.find_path_to(n1)
+		path_to_n2 = tree.find_path_to(n2)
+		print(tree.find_path_to(n1))
+		print(tree.find_path_to(n2))
+		
+		## Get the least common ancestor
+		for nod_n1 in path_to_n1:
+			for idx, nod_n2 in enumerate(path_to_n2):
+				if nod_n1 == nod_n2:
+					least_common_ancestor = nod_n1
+					if least_common_ancestor == n1 or \
+									least_common_ancestor == n2:
+						least_common_ancestor = path_to_n2[idx -1]
+					continue	
+		print('least_common_ancestor for',n1, 'and', n2, 'is' , \
+									least_common_ancestor)
+		print()
+		return least_common_ancestor
 
 ## Test cases
 question4([[0, 1, 0, 0, 0],

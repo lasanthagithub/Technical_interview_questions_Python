@@ -48,7 +48,7 @@ def question1(s, t):
 		return False
 	
 ## Question 1 test cases
-print('Questinn 1 tests results')
+print('Questinn 1 tests results##############################################')
 print(question1('udasity', 'ad'))
 print(question1('determine some anagram of t is a substring of', 'some'))
 print(question1('determine some anagram of t is a substring of', 'like'))
@@ -102,7 +102,7 @@ def isOdd(numb):
 		return True
 	else:
 		return False
-print('Questinn 2 tests results')
+print('Questinn 2 tests results##############################################')
 print(question2('aghht atta ghjhfsh gittig ggg'))
 print(question2('aghht atta ghjhfsh gititg ggg'))
 print(question2('1988 1988891 1881 6253677 222222'))
@@ -368,7 +368,7 @@ g4 = {'A' : [('B', 10000), ('C', 9), ('F', 14)],
      }
 
 
-print('Questinn 3 tests results')
+print('Questinn 3 tests results##############################################')
 question3(g)
 question3(g1)
 question3(g2)
@@ -443,54 +443,60 @@ class BST(object):
 
 
 def question4(T, r, n1, n2):
-	## Initialize and enter root into tree
-	tree = BST(r)	
 	
-	## Get the list of child nodes from matrix
-	def get_children(T, node, temp_lst = []):
-		for nod, child in enumerate(T[node]):
-			if child == 1:
-				temp_lst.append(nod)
-		return temp_lst
-	
-	children = get_children(T, r)	
-	## Inser data in to BST
-	while children:
-		temp_child = []
-		for sub_nod in children:
-			tree.insert(sub_nod)
-			temp_child = get_children(T, sub_nod, temp_child)
-		children = temp_child
-	
-	## Get the path fom root to specific nodes
-	path_to_n1 = tree.find_path_to(n1)
-	path_to_n2 = tree.find_path_to(n2)
-	print(tree.find_path_to(n1))
-	print(tree.find_path_to(n2))
-	## Get the least common ancestor
-	least_common_ancestor = None
-	if n1 == r or n2 == r:
+	least_common_ancestor = None	
+	if (n1 < r and n2 > r) or (n2 < r and n1 > r):
+		print('least_common_ancestor for',n1, 'and', n2, 'is the root' , r)
+		print()
+		return r
+		
+	elif n1 == r or n2 == r:
 		print(n1, 'or', n2, 'equel to root', r)
 		print('No common ancestor')
 		print()
 		return least_common_ancestor
-	
-	for nod_n1 in path_to_n1:
-		for idx, nod_n2 in enumerate(path_to_n2):
-			if nod_n1 == nod_n2:
-				least_common_ancestor = nod_n1
-				if least_common_ancestor == n1 or \
-								least_common_ancestor == n2:
-					least_common_ancestor = path_to_n2[idx -1]
-				continue	
-	#common_path = list(set(path_to_n1) & set(path_to_n2))
-	#common_path = list(set(path_to_n1) - set(path_to_n2))
-	print('least_common_ancestor for',n1, 'and', n2, 'is' , \
-								least_common_ancestor)
-	print()
-	return least_common_ancestor
+	else:	
+		## Initialize and enter root into tree
+		tree = BST(r)	
+		
+		## Get the list of child nodes from matrix
+		def get_children(T, node, temp_lst = []):
+			for nod, child in enumerate(T[node]):
+				if child == 1:
+					temp_lst.append(nod)
+			return temp_lst
+		
+		children = get_children(T, r)	
+		## Inser data in to BST
+		while children:
+			temp_child = []
+			for sub_nod in children:
+				tree.insert(sub_nod)
+				temp_child = get_children(T, sub_nod, temp_child)
+			children = temp_child
+		
+		## Get the path fom root to specific nodes
+		path_to_n1 = tree.find_path_to(n1)
+		path_to_n2 = tree.find_path_to(n2)
+		print(tree.find_path_to(n1))
+		print(tree.find_path_to(n2))
+		
+		## Get the least common ancestor
+		for nod_n1 in path_to_n1:
+			for idx, nod_n2 in enumerate(path_to_n2):
+				if nod_n1 == nod_n2:
+					least_common_ancestor = nod_n1
+					if least_common_ancestor == n1 or \
+									least_common_ancestor == n2:
+						least_common_ancestor = path_to_n2[idx -1]
+					continue	
+		print('least_common_ancestor for',n1, 'and', n2, 'is' , \
+									least_common_ancestor)
+		print()
+		return least_common_ancestor
 
 ## Test cases
+print('Questinn 4 tests results##############################################')
 question4([[0, 1, 0, 0, 0],
            [0, 0, 0, 0, 0],
            [0, 0, 0, 0, 0],
@@ -532,7 +538,118 @@ question4([[0, 0, 0, 0, 0, 0, 0],
            [0, 0, 0, 1, 0, 1, 0],
            [0, 0, 0, 0, 0, 0, 1],
            [0, 0, 0, 0, 0, 0, 0]],4, 1, 6)
+print()
+
+###########Question5###########################################################
+
+'''
+Question 5
+Find the element in a singly linked list that's m elements from the end. 
+For example, if a linked list has 5 elements, the 3rd element from the end is 
+the 3rd element. The function definition should look like question5(ll, m), 
+where ll is the first node of a linked list and m is the "mth number 
+from the end". 
+'''
+
+class LLNode(object):
+	def __init__(self, data):
+		self.data = data
+		self.next = None
+
+class LinkedList(object):
+	def __init__(self, head=None):
+		self.head = head
+
+	def append(self, new_element):
+		current = self.head
+		if self.head:
+			while current.next:
+				current = current.next
+			current.next = new_element
+		else:
+			self.head = new_element
+
+	def get_position(self, position):
+		"""Get an element from a particular position.
+		Assume the first position is "1".
+		Return "None" if position is not in the list."""
+		counter = 1
+		current = self.head
+		if position < 1:
+			return None
+		while current and counter <= position:
+			if counter == position:
+				return current
+			current = current.next
+			counter += 1
+		return None
+		
+
+def question5(ll, m):
+	
+	## Get the length of linked list
+	def get_length(node):
+		"""Get the total length of the linked list."""
+		counter = 1
+		current = node
+		if current:
+			while current:
+				current = current.next
+				counter += 1
+			return counter
+		else:
+			return None
+			
+	def get_element(l_list, position):
+		"""Get an element from a particular position.
+		Assume the first position is "1".
+		"""
+		counter = 1
+		current = l_list
+		if position < 1:
+			return None
+		while current and counter <= position:
+			if counter == position:
+				return current.data
+			current = current.next
+			counter += 1
+		return None
+	
+	ll_length = get_length(ll)
+	
+	if m < ll_length:
+		m_th_from_end = ll_length - m
+		m_th_element = get_element(ll, m_th_from_end)
+		print(m,'th/rd/st item from the end is:', m_th_element)
+	else:
+		print('Error: linked list is smaller than', m)
+	print()
+	
+print('Questinn 5 tests results##############################################')
+# Test cases
+
+# Create a linked list
+llist = LinkedList()
+for i in range(1, 100):
+	llist.append(LLNode(i))
+
+question5(llist.get_position(1), 20)
 
 
+llist = LinkedList()
+for i in range(-4, 5):
+	llist.append(LLNode(i))
+question5(llist.get_position(1), 3)
+
+
+llist = LinkedList()
+for i in [5,3,7,8,0]:
+	llist.append(LLNode(i))
+question5(llist.get_position(1), 3)
+
+llist = LinkedList()
+for i in range(-4, 5):
+	llist.append(LLNode(i))
+question5(llist.get_position(1), 20)
 
 
