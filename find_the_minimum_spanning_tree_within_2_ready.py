@@ -1,3 +1,4 @@
+###########Question3###########################################################
 '''
 Question 3
 Given an undirected graph G, find the minimum spanning tree within G. 
@@ -12,7 +13,6 @@ which are connecting by an edge.
 An edge size is given as a 2-tuple with nodes , i.e. ("A","3")
 
 '''
-
 ###############################################################################
 '''Some of the parts of the classes in this block is aquired form Udacity 
 class notes '''
@@ -88,61 +88,6 @@ class Graph(object):
                  self.node_names[edge.node_to.value])
                 for edge in self.edges]
 
-    def get_adjacency_list(self):
-        """Return a list of lists.
-        The indecies of the outer list represent "from" nodes.
-        Each section in the list will store a list
-        of tuples that looks like this:
-        (To Node, Edge Value)"""
-        max_index = self.find_max_index()
-        adjacency_list = [[] for _ in range(max_index)]
-        for edg in self.edges:
-            from_value, to_value = edg.node_from.value, edg.node_to.value
-            adjacency_list[from_value].append((to_value, edg.value))
-        return [a or None for a in adjacency_list] # replace []'s with None
-
-    def get_adjacency_list_names(self):
-        """Each section in the list will store a list
-        of tuples that looks like this:
-        (To Node Name, Edge Value).
-        Node names should come from the names set
-        with set_node_names."""
-        adjacency_list = self.get_adjacency_list()
-        def convert_to_names(pair, graph=self):
-            node_number, value = pair
-            return (graph.node_names[node_number], value)
-        def map_conversion(adjacency_list_for_node):
-            if adjacency_list_for_node is None:
-                return None
-            return map(convert_to_names, adjacency_list_for_node)
-        return [map_conversion(adjacency_list_for_node)
-                for adjacency_list_for_node in adjacency_list]
-
-    def get_adjacency_matrix(self):
-        """Return a matrix, or 2D list.
-        Row numbers represent from nodes,
-        column numbers represent to nodes.
-        Store the edge values in each spot,
-        and a 0 if no edge exists."""
-        max_index = self.find_max_index()
-        adjacency_matrix = [[0] * (max_index) for _ in range(max_index)]
-        for edg in self.edges:
-            from_index, to_index = edg.node_from.value, edg.node_to.value
-            adjacency_matrix[from_index][to_index] = edg.value
-        return adjacency_matrix
-
-    def find_max_index(self):
-        """Return the highest found node number
-        Or the length of the node names if set with set_node_names()."""
-        if len(self.node_names) > 0:
-            return len(self.node_names)
-        max_index = -1
-        if len(self.nodes):
-            for node in self.nodes:
-                if node.value > max_index:
-                    max_index = node.value
-        return max_index
-
     def find_node(self, node_number):
         "Return the node with value node_number or None"
         return self._node_map.get(node_number)
@@ -184,38 +129,6 @@ class Graph(object):
     def dfs_names(self, start_node_num):
         """Return the results of dfs with numbers converted to names."""
         return [self.node_names[num] for num in self.dfs(start_node_num)]
-
-    def bfs(self, start_node_num):
-        """An iterative implementation of Breadth First Search
-        iterating through a node's edges. The output should be a list of
-        numbers corresponding to the traversed nodes.
-        ARGUMENTS: start_node_num is the node number (integer)
-        MODIFIES: the value of the visited property of nodes in self.nodes
-        RETURN: a list of the node values (integers)."""
-        node = self.find_node(start_node_num)
-        #print(node.value, node.edges[1].value)
-        self._clear_visited()
-        ret_list = []
-        # Your code here
-        queue = [node]
-        node.visited = True
-        def enqueue(n, q=queue):
-            n.visited = True
-            q.append(n)
-        def unvisited_outgoing_edge(n, e):
-            return ((e.node_from.value == n.value) and
-                    (not e.node_to.visited))
-        while queue:
-            node = queue.pop(0)
-            ret_list.append(node.value)
-            for e in node.edges:
-                if unvisited_outgoing_edge(node, e):
-                    enqueue(e.node_to)
-        return ret_list
-
-    def bfs_names(self, start_node_num):
-        """Return the results of bfs with numbers converted to names."""
-        return [self.node_names[num] for num in self.bfs(start_node_num)]
 
 ###############################################################################
 
@@ -296,7 +209,7 @@ def question3(g):
 	
 	## Print for displaying
 	import pprint
-	print('minimum spanning path')
+	print('Minimum spanning path')
 	pp = pprint.PrettyPrinter(indent=2)	
 	pp.pprint(edge_sequence(paths)[3])
 
@@ -316,7 +229,11 @@ g1 = {'A': [('B', 2)],
  'B': [('A', 2), ('C', 5)], 
  'C': [('B', 5)]}
 	
-g2 = {'A' : [('B', 7), ('C', 9), ('F', 14)], 
+g2 = {'A': [('B', 2)],
+ 'B': [('A', 2), ('C', 1000000)], 
+ 'C': [('B', 1000000)]}
+	
+g3 = {'A' : [('B', 7), ('C', 9), ('F', 14)], 
      'B' : [('A', 7), ('C', 10), ('D', 15)], 
      'C' : [('A', 9), ('B', 10), ('D', 11), ('F', 2), ('G', 4)],
      'D' : [('B', 15), ('C', 11), ('E', 6)],
@@ -324,7 +241,21 @@ g2 = {'A' : [('B', 7), ('C', 9), ('F', 14)],
      'F' : [('A', 14), ('C', 2), ('E', 9), ('G', 5)],
      'G' : [('F', 5), ('E', 3), ('C', 4)]
      }
+					
+g4 = {'A' : [('B', 10000), ('C', 9), ('F', 14)], 
+     'B' : [('A', 10000), ('C', 10), ('D', 15)], 
+     'C' : [('A', 9), ('B', 10), ('D', 11), ('F', 10000), ('G', 4)],
+     'D' : [('B', 15), ('C', 11), ('E', 6)],
+     'E' : [('D', 6), ('F', 100000), ('G', 3)],
+     'F' : [('A', 14), ('C', 10000), ('E', 100000), ('G', 5)],
+     'G' : [('F', 5), ('E', 3), ('C', 4)]
+     }
 
+
+print('Questinn 3 tests results')
 question3(g)
 question3(g1)
 question3(g2)
+question3(g3)
+question3(g4)
+print()

@@ -1,3 +1,4 @@
+###########Question4###########################################################
 '''
 Question 4
 Find the least common ancestor between two nodes on a binary search tree. 
@@ -15,7 +16,7 @@ in no particular order.
 
 '''
 
-class Node(object):
+class BNode(object):
 	def __init__(self, value):
 		self.value = value
 		self.left = None
@@ -23,7 +24,7 @@ class Node(object):
 
 class BST(object):
 	def __init__(self, root):
-		self.root = Node(root)
+		self.root = BNode(root)
 
 	def insert(self, new_val):
 		self.insert_helper(self.root, new_val)
@@ -33,12 +34,12 @@ class BST(object):
 			if current.right:
 				self.insert_helper(current.right, new_val)
 			else:
-				current.right = Node(new_val)
+				current.right = BNode(new_val)
 		else:
 			if current.left:
 				self.insert_helper(current.left, new_val)
 			else:
-				current.left = Node(new_val)
+				current.left = BNode(new_val)
 
 	## Search path to given node
 	def find_path_to(self, find_val):
@@ -99,12 +100,14 @@ def question4(T, r, n1, n2):
 		for idx, nod_n2 in enumerate(path_to_n2):
 			if nod_n1 == nod_n2:
 				least_common_ancestor = nod_n1
-				if least_common_ancestor == n1 or least_common_ancestor == n2:
+				if least_common_ancestor == n1 or \
+								least_common_ancestor == n2:
 					least_common_ancestor = path_to_n2[idx -1]
 				continue	
 	#common_path = list(set(path_to_n1) & set(path_to_n2))
 	#common_path = list(set(path_to_n1) - set(path_to_n2))
-	print('least_common_ancestor for',n1, 'and', n2, 'is' , least_common_ancestor)
+	print('least_common_ancestor for',n1, 'and', n2, 'is' , \
+								least_common_ancestor)
 	print()
 	return least_common_ancestor
 

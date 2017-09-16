@@ -21,15 +21,6 @@ def question2(a):
 		center = int(substring_len / 2) ## get the centre
 		
 		## Seperate the substring into two parst by centre
-		## Sort the two parts
-		'''if isOdd(substring_len): ## find the length is even or odd
-			first_part = ''.join(sorted(substring[:center +1]))
-			second_part = ''.join(sorted(substring[center:]))
-		else:
-			first_part = ''.join(sorted(substring[:center]))
-			second_part = ''.join(sorted(substring[center:]))
-		'''
-			
 		if isOdd(substring_len): ## find the length is even or odd
 			first_part = substring[:center +1]
 			second_part = substring[center:][::-1] ## reverse the string
