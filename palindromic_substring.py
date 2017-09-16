@@ -1,4 +1,4 @@
-##vQuestion 2
+###########Question2###########################################################
 '''
 Given a string a, find the longest palindromic substring contained in a. Your 
 function definition should look like question2(a), and return a string
@@ -47,6 +47,7 @@ def isOdd(numb):
 		return False
 
 print(question2('aghht atta ghjhfsh gittig gggg'))
+print(question2('aghht atta ghjhfsh gititg gggg'))
 print(question2('1988 1988891 1881 6253677 222222'))
 print(question2('1988 1988891 1881 6253677 222222222'))
 print(question2('1988 1988891 1881 6253677 22222 aghht atta  gittig gggg'))

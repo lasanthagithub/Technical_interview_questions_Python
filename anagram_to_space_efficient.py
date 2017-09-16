@@ -36,8 +36,8 @@ def question1(s, t):
 		## Chech wheather the word is in given main string
 		if word in s and s != '':
 			is_anagram =True
-			word_combination.append(word) ## to save space this line can
-								 ## be omited
+			word_combination.append(word) ## to save the space this line 
+								 ## canbe omited
 	
 	if is_anagram:
 		print('The anagrams in the main string string given: ', \
