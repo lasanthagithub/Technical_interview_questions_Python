@@ -79,7 +79,7 @@ def question5(ll, m):
 		m_th_element = get_element(ll, m_th_from_end)
 		print(m,'th item from the end is:', m_th_element)
 	else:
-		print('Error: linked list is smaaler than', m)
+		print('Error: linked list is smaller than', m)
 	print()
 
 # Test cases
@@ -102,3 +102,8 @@ llist = LinkedList()
 for i in [5,3,7,8,0]:
 	llist.append(Node(i))
 question5(llist.get_position(1), 3)
+
+llist = LinkedList()
+for i in range(-4, 5):
+	llist.append(Node(i))
+question5(llist.get_position(1), 20)
