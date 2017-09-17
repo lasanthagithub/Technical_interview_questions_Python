@@ -22,6 +22,7 @@ def question1(s, t):
 	s = s.lower()
 	t = t.lower()
 	
+	## Get the character count dictionary
 	def word_letter_count(word_):
 		word_dict = {}
 		for letter in word_:
@@ -33,7 +34,8 @@ def question1(s, t):
 		
 	t_dict = word_letter_count(t)
 	len_tdict = len(t_dict)
-
+	
+	## Determine whether the t is anagram of s or not
 	for word in s.split():	
 		s_word_dict = word_letter_count(word)
 		count = 0
