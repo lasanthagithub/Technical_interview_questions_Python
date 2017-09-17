@@ -195,7 +195,7 @@ def question3(g):
 			
 	## Use Kruskal algorithum to determine minimum spaning tree
 	## The procedure returns edges list that contains the min spanning tree
-	def kruskal_algorithm(nodes, edges):
+	def kruskal_min_span_tree(nodes, edges):
 		graph = DisjointSet()
 		min_span_tree = []
 		for node in nodes:
@@ -216,7 +216,7 @@ def question3(g):
 	
 				graph.union(t1, t2)
 			
-	min_span_path_list = kruskal_algorithm(g_key_list, edge_list)
+	min_span_path_list = kruskal_min_span_tree(g_key_list, edge_list)
 
 	## convert to dictionary
 	min_path_dict = {}
