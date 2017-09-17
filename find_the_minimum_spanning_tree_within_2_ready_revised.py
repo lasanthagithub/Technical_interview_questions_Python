@@ -135,7 +135,7 @@ class Graph(object):
 '''
 This part og the codes auired from https://programmingpraxis.com for 
 minimum-spanning-tree-kruskals-algorithm.
- and modified in order to use purpose of this project
+And modified accordingly in order to use purpose of this project
 '''
 class DisjointSet(dict):
     def add(self, item):
@@ -153,16 +153,18 @@ class DisjointSet(dict):
     def union(self, item1, item2):
         self[item2] = self[item1]
 
-
+import pprint
+pp = pprint.PrettyPrinter(indent=2)
 
 from operator import itemgetter
-## Use Kruskal algorithum to determine 
+## Use Kruskal algorithum to determine minimum spaning tree path
+## The procedure returns edge lists that contains the minimum spaniing tree
 def kruskal(nodes, edges):
 	forest = DisjointSet()
 	mst = []
 	for n in nodes:
 		forest.add( n )
-	print(forest)
+	#print(forest)
 	sz = len(nodes) - 1
 
 	for e in sorted( edges, key=itemgetter(2)):
@@ -173,7 +175,7 @@ def kruskal(nodes, edges):
 			mst.append(e)
 			sz -= 1
 			if sz == 0:
-				print(forest)
+				#print(forest)
 				return mst
 
 			forest.union(t1, t2)
@@ -274,12 +276,22 @@ def question3(g):
 	g_key_list = list(g.keys())
 	
 	## convert g to list of edges
+	edge_list = []
 	for node in g_key_list:
 		for edge in g[node]:
-			graph.insert_edge(int(edge[1]), g_key_list.index(node),\
-			g_key_list.index(edge[0]))
+			edge_list.append((node, edge[0], edge[1]))
 			
+	min_span_path_list = kruskal(g_key_list, edge_list)
+	pp.pprint(min_span_path_list)
 	
+	## convert to dictionary
+	min_path_dict = {}
+	for edge in min_span_path_list:
+		if edge[0] in min_path_dict.keys():
+			min_path_dict[edge[0]].append((edge[1], edge[2]))
+		else:
+			min_path_dict[edge[0]] = [(edge[1], edge[2])]
+	pp.pprint(min_path_dict)
 	
 	
 	
